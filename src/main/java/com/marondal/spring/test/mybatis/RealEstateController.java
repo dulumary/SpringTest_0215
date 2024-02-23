@@ -74,6 +74,26 @@ public class RealEstateController {
 		return "입력 성공 : " + count;
 	}
 	
+	@RequestMapping("/update")
+	@ResponseBody
+	public String updateRealEstate() {
+//		id가 22 인 행의 type 을 전세로 바꾸고 price 를 70000으로 변경하세요.
+		
+		int count = realEstateService.updateRealEstate(22, "전세", 70000);
+		
+		return "수정 성공 : " + count;
+	}
+	
+	@RequestMapping("/delete")
+	@ResponseBody
+	public String deleteRealEstate(@RequestParam("id") int id) {
+		
+		int count = realEstateService.deleteRealEstate(id);
+		
+		return "삭제 성공 : " + count;
+		
+	}
+	
 	
 
 }
