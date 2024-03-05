@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,22 +44,35 @@
 						</tr>
 					</thead>
 					<tbody>
+						<c:forEach var="weather" items="${weatherHistory }">
 						<tr>
-							<td>2024년 2월 29일</td>
-							<td><img src="http://marondal.com/material/images/dulumary/web/jstl/partlyCloudy.jpg"></td>
-							<td>7°C</td>
-							<td>0mm</td>
-							<td>좋음</td>
-							<td>3.2km/h</td>
+							<td><fmt:formatDate value="${weather.date }" pattern="yyyy년 M월 d일" /> </td>
+							<td>
+							<c:choose>
+								<c:when test="${weather.weather eq '맑음' }">
+									<img src="http://marondal.com/material/images/dulumary/web/jstl/sunny.jpg">
+								</c:when>
+								<c:when test="${weather.weather eq '구름조금' }">
+									<img src="http://marondal.com/material/images/dulumary/web/jstl/partlyCloudy.jpg">
+								</c:when>
+								<c:when test="${weather.weather eq '흐림' }">
+									<img src="http://marondal.com/material/images/dulumary/web/jstl/cloudy.jpg">
+								</c:when>
+								<c:when test="${weather.weather eq '비' }">
+									<img src="http://marondal.com/material/images/dulumary/web/jstl/rainy.jpg">
+								</c:when>
+								<c:otherwise>
+									${weather.weather }
+								</c:otherwise>
+							</c:choose>
+							
+							</td>
+							<td>${weather.temperatures }°C</td>
+							<td>${weather.precipitation }mm</td>
+							<td>${weather.microDust }</td>
+							<td>${weather.windSpeed }km/h</td>
 						</tr>
-						<tr>
-							<td>2024년 2월 28일</td>
-							<td><img src="http://marondal.com/material/images/dulumary/web/jstl/rainy.jpg"></td>
-							<td>5.3°C</td>
-							<td>3mm</td>
-							<td>좋음</td>
-							<td>2.5km/h</td>
-						</tr>		
+						</c:forEach>
 					</tbody>
 				
 				</table>
