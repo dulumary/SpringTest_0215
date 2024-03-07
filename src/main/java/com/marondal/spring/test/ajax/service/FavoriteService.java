@@ -26,5 +26,20 @@ public class FavoriteService {
 		int count = favoriteRepository.insertFavorite(name, url);
 		return count;
 	}
+	
+	public boolean isDuplicateUrl(String url) {
+		int count = favoriteRepository.selectCountByUrl(url);
+//		
+//		if(count >= 1) {
+//			// 중복
+//			return true;
+//		} else {
+//			// 중복 안됨
+//			return false;
+//		}	
+		
+		return count >= 1;
+		
+	}
 
 }
