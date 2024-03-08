@@ -85,9 +85,28 @@ public class FavoriteController {
 		
 	}
 	
+	// 삭제 api
 	@GetMapping("/delete")
-	public  deleteFavorite(@RequestParam("id") int id) {
+	@ResponseBody
+	public Map<String, String> deleteFavorite(
+			@RequestParam("id") int id) {
+		
+		int count = favoriteService.deleteFavorite(id);
+		
+		// 성공 : {"result":"success"} 
+		// 실패 : {"result":"fail"}
+		
+		Map<String, String> resultMap = new HashMap<>();
+		
+		if(count == 1) {
+			resultMap.put("result", "success");
+		} else {
+			resultMap.put("result", "fail");
+		}
+		
+		return resultMap;
 		
 	}
+	
 
 }
