@@ -45,16 +45,16 @@
 	                <div class="no-member-input mt-3y" id="nonMember">
 	                    <div class="input-gorup form-inline">
 	                        <label class="input-label">이름 </label>
-	                        <input type="text" class="form-control text-input">
+	                        <input type="text" class="form-control text-input" id="nameInput">
 	                    </div>
 	                    <div class="input-gorup form-inline mt-3">
 	                        <label class="input-label">전화번호 </label>
-	                        <input type="text" class="form-control text-input">
+	                        <input type="text" class="form-control text-input" id="phoneNumberInput">
 	                    </div>
 	               
 	                </div>
 	                <div class="d-flex justify-content-end">
-	                    <button class="btn btn-success mt-3 mr-5">조회 하기</button>
+	                    <button class="btn btn-success mt-3 mr-5" id="searchBtn">조회 하기</button>
 	                </div>
 	            </div>
 	        </article>
@@ -79,5 +79,53 @@
 	
 	</div>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+<script>
+	$(document).ready(function() {
+		$("#searchBtn").on("click", function() {
+			
+			let name = $("#nameInput").val();
+			let phoneNumber = $("#phoneNumberInput").val();
+			
+			if(name == "") {
+				alert("이름을 입력하세요");
+				return ;
+			}
+			
+			if(phoneNumber == "") {
+				alert("전화번호를 입력하세요");
+				return ;
+			}
+			
+			$.ajax({
+				type:"get"
+				, url:"/ajax/booking/search"
+				, data:{"name":name, "phoneNumber":phoneNumber}
+				, success:function(data) {
+					
+					if(data.result == "fail") {
+						alert("조회된 결과가 없습니다");
+					} else {
+			
+						// {"result":"success","booking":{"id":9,"name":"장나라","headcount":2,"day":1,"date":"2025-09-11T15:00:00.000+00:00","phoneNumber":"010-2222-0000","state":"확정","createdAt":"2024-01-22T07:58:30.000+00:00","updatedAt":"2024-01-22T07:58:30.000+00:00"}}
+						alert("이름 : " + data.booking.name + "\n" 
+								+ "날짜 : " + data.booking.date.substring(0, 10) + "\n"
+								+ "일수 : " + data.booking.day + "\n"
+								+ "인원 : " + data.booking.headcount + "\n"
+								+ "상태 : " + data.booking.state);
+					}
+					
+					
+				}
+				, error:function() {
+					alert("조회 에러");
+				}
+			});
+		});
+		
+	});
+</script>
 </body>
 </html>
